@@ -1,0 +1,56 @@
+name: Learn Actions
+
+on: 
+  push:
+    branches:
+      -main
+
+env:
+  GLOBAL_VAR: "I am global"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14,16]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:  
+          node-version: ${{ matrix.node }}
+          
+      - name: Print info
+        run: |
+          echo: "Global variable: $GLOBAL_VAR"
+          echo: "Matrix Node Version: ${{ matrix.node }}"
+          
+
+  test:
+    needs: build
+    runs-on: ubuntu latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Tests
+        run: |
+          echo "Running Tests..."
+          #simulate test command
+          sleep 2
+
+  deploy:
+    needs: test
+    runs-on: ubuntu latest
+    if: github.ref == 'ref/heads/main' && github.event_name == 'push'
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Deploy (simulated) 
+        run: echo "Deploying to production!"
+   
+     
+     
+        
