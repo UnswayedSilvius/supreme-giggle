@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: Castlevania
     strategy:
       matrix:
         node: [14,16]
@@ -31,7 +31,7 @@ jobs:
 
   test:
     needs: build
-    runs-on: ubuntu latest
+    runs-on: Castlevania
     steps:
       - uses: actions/checkout@v4
 
@@ -43,7 +43,7 @@ jobs:
 
   deploy:
     needs: test
-    runs-on: ubuntu latest
+    runs-on: Castlevania
     if: github.ref == 'ref/heads/master' && github.event_name == 'push'
     steps: 
       - name: Checkout code
